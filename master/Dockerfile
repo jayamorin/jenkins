@@ -17,6 +17,6 @@ RUN apt-get update && \
     stable" && \
     apt-get update && \
     apt-get -y install docker-ce
-RUN groupmod -g 998 docker
+RUN groupmod -g 999 docker
 RUN usermod -a -G docker jenkins
 USER jenkins
