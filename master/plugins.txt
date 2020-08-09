@@ -1,3 +1,5 @@
 greenballs:1.15
 docker-plugin:1.2.0
 docker-workflow:1.23
+github-branch-source:2.8.3
+blueocean-dashboard:1.23.2
