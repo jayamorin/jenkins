@@ -1,5 +1,5 @@
 FROM jenkins/jenkins:2.235.3
-COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
+COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/
 COPY log.properties /var/jenkins_home/log.properties
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/install-plugins.sh $(cat /usr/share/jenkins/plugins.txt | tr '\n' ' ')
