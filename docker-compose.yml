@@ -1,0 +1,32 @@
+version: "3"
+services:
+  jenkins-master:
+    image: jayamorin/jenkins-master:latest
+    restart: always
+    user: 1000:999
+    networks:
+      - jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - "jenkins_data:/var/jenkins_home"
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/user/.ssh:/var/jenkins_home/.ssh
+    environment:
+      JAVA_OPTS: >-
+        -Xmx4096m
+        -Djava.awt.headless=true
+        -Djenkins.install.runSetupWizard=false
+        -Dhudson.footerURL=http://jenkins.jayamorin.com
+        -Djava.util.logging.config.file=/var/jenkins_home/log.properties
+      TRY_UPGRADE_IF_NO_MARKER: "true"
+networks:
+  jenkins:
+volumes:
+  jenkins_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /var/jenkins_home
+      o: bind
