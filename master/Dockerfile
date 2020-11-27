@@ -5,7 +5,7 @@ LABEL maintaner="Jay Amorin <jay.amorin@gmail.com>"
 LABEL org.label-schema.build-date=${BUILD_DATE}
 LABEL org.label-schema.name="jenkins-master"
 LABEL org.label-schema.description="Jenkins master running on docker"
-LABEL org.label-schema.usage="/usr/share/doc/jenkins-master/app-usage.txt"
+LABEL org.label-schema.usage="/usr/share/doc/jenkins-master/usage.txt"
 LABEL org.label-schema.url="https://jenkins.jayamorin.com"
 LABEL org.label-schema.vcs-url="https://github.com/jayamorin/jenkins-docker"
 LABEL org.label-schema.vcs-ref=$BUILD_VERSION
@@ -21,7 +21,7 @@ LABEL org.label-schema.docker.cmd="docker run -d -p 8080:8080 -p 50000:50000 \
 COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/
 COPY log.properties /var/jenkins_home/log.properties
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-COPY app-usage.txt /usr/share/doc/jenkins-master/app-usage.txt
+COPY usage.txt /usr/share/doc/jenkins-master/usage.txt
 RUN /usr/local/bin/install-plugins.sh $(cat /usr/share/jenkins/plugins.txt | tr '\n' ' ')
 USER root
 RUN apt-get update && \

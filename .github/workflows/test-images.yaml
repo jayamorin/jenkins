@@ -25,9 +25,11 @@ jobs:
 
       - name: Get current timedate
         id: date
-        run: echo "NOW::$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+        run: echo "name=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
 
       - name: Pull latest jenkins-master image and build
+        env:
+          NOW: ${{ steps.date.outputs.date }}
         run: |
           cd master
           docker pull jayamorin/jenkins-master:latest
