@@ -1,8 +1,6 @@
 FROM jenkins/jenkins:2.235.3 AS default
-
 ARG BUILD_DATE
 ARG BUILD_VERSION
-
 LABEL maintaner="Jay Amorin <jay.amorin@gmail.com>"
 LABEL org.label-schema.build-date=${BUILD_DATE}
 LABEL org.label-schema.name="jenkins-master"
@@ -20,7 +18,6 @@ LABEL org.label-schema.docker.cmd="docker run -d -p 8080:8080 -p 50000:50000 \
     -Djenkins.install.runSetupWizard=false -Dhudson.footerURL=http://jenkins.jayamorin.com \
     -Djava.util.logging.config.file=/var/jenkins_home/log.properties \
     -e TRY_UPGRADE_IF_NO_MARKER:=true jenkins-master:latest"
-
 COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/
 COPY log.properties /var/jenkins_home/log.properties
 COPY plugins.txt /usr/share/jenkins/plugins.txt
@@ -28,7 +25,7 @@ COPY app-usage.txt /usr/share/doc/jenkins-master/app-usage.txt
 RUN /usr/local/bin/install-plugins.sh $(cat /usr/share/jenkins/plugins.txt | tr '\n' ' ')
 USER root
 RUN apt-get update && \
-    apt-get -y install apt-transport-https \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install apt-transport-https \
     ca-certificates \
     curl \
     gnupg2 \
@@ -39,7 +36,8 @@ RUN apt-get update && \
     $(lsb_release -cs) \
     stable" && \
     apt-get update && \
-    apt-get -y install docker-ce
+    DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce && \
+    rm -rf /var/lib/apt/lists/*
 RUN groupmod -g 999 docker
 RUN usermod -a -G docker jenkins
 USER jenkins
