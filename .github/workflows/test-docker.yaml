@@ -25,7 +25,8 @@ jobs:
 
       - name: Pull latest jenkins-master image and build
         run: |
+          DATE_NOW="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           cd master
           docker pull jayamorin/jenkins-master:latest
           docker build -t jayamorin/jenkins-master:latest \
-            --build-arg BUILD_DATE="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" --build-arg BUILD_VERSION=${{ github.sha }} .
+            --build-arg BUILD_DATE=${DATE_NOW} --build-arg BUILD_VERSION=${{ github.sha }} .
