@@ -37,11 +37,14 @@ jobs:
             --build-arg BUILD_DATE=${NOW} --build-arg BUILD_VERSION=${{ github.sha }} .
           docker inspect jayamorin/jenkins-master:latest
 
-      - name: Pull latest jenkins-slave-python3.9 image and build
+      - name: Pull latest jenkins-slave-python image and build
         env:
           NOW: ${{ steps.date.outputs.date }}
         run: |
-          cd slaves/python3.9
-          docker build -t jayamorin/jenkins-slave-python3.9:latest \
-            --build-arg BUILD_DATE=${NOW} --build-arg BUILD_VERSION=${{ github.sha }} .
-          docker inspect jenkins-slave-python3.9:latest
+          cd slaves/python
+          docker build -t jayamorin/jenkins-slave-python:latest \
+            --target python3.9
+            --build-arg BUILD_DATE=${NOW} \
+            --build-arg BUILD_VERSION=${{ github.sha }} .
+          docker tag jayamorin/jenkins-slave-python:latest jayamorin/jenkins-slave-python:3.9
+          docker inspect jayamorin/jenkins-slave-python:3.9
