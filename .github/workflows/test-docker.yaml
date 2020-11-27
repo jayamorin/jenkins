@@ -30,3 +30,4 @@ jobs:
           docker pull jayamorin/jenkins-master:latest
           docker build -t jayamorin/jenkins-master:latest \
             --build-arg BUILD_DATE=${DATE_NOW} --build-arg BUILD_VERSION=${{ github.sha }} .
+          docker inspect jayamorin/jenkins-master:latest
