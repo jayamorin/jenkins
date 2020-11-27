@@ -23,11 +23,14 @@ jobs:
           username: jayamorin
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
+      - name: Get current timedate
+        id: date
+        run: echo "::set-output name=now::$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+
       - name: Pull latest jenkins-master image and build
         run: |
-          DATE_NOW="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           cd master
           docker pull jayamorin/jenkins-master:latest
           docker build -t jayamorin/jenkins-master:latest \
-            --build-arg BUILD_DATE=${DATE_NOW} --build-arg BUILD_VERSION=${{ github.sha }} .
+            --build-arg BUILD_DATE=${{ steps.date.output.now }} --build-arg BUILD_VERSION=${{ github.sha }} .
           docker inspect jayamorin/jenkins-master:latest
