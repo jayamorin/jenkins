@@ -25,5 +25,6 @@ jobs:
 
       - name: Pull latest jenkins-master image and build
         run: |
+          cd master
           docker pull jayamorin/jenkins-master:latest
-          docker build -t jayamorin/jenkins-master:latest -f master/Dockerfile .
+          docker build -t jayamorin/jenkins-master:latest .
