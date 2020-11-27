@@ -41,8 +41,7 @@ jobs:
         env:
           NOW: ${{ steps.date.outputs.date }}
         run: |
-          cd master
-          docker pull jayamorin/jenkins-slave-python3.9:latest
+          cd slaves/python3.9
           docker build -t jayamorin/jenkins-slave-python3.9:latest \
             --build-arg BUILD_DATE=${NOW} --build-arg BUILD_VERSION=${{ github.sha }} .
           docker inspect jenkins-slave-python3.9:latest
