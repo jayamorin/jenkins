@@ -25,7 +25,7 @@ jobs:
 
       - name: Get current timedate
         id: date
-        run: echo "name=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+        run: echo "::set-output name=date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 
       - name: Pull latest jenkins-master image and build
         env:
@@ -36,3 +36,13 @@ jobs:
           docker build -t jayamorin/jenkins-master:latest \
             --build-arg BUILD_DATE=${NOW} --build-arg BUILD_VERSION=${{ github.sha }} .
           docker inspect jayamorin/jenkins-master:latest
+
+      - name: Pull latest jenkins-slave-python3.9 image and build
+        env:
+          NOW: ${{ steps.date.outputs.date }}
+        run: |
+          cd master
+          docker pull jayamorin/jenkins-slave-python3.9:latest
+          docker build -t jayamorin/jenkins-slave-python3.9:latest \
+            --build-arg BUILD_DATE=${NOW} --build-arg BUILD_VERSION=${{ github.sha }} .
+          docker inspect jenkins-slave-python3.9:latest
