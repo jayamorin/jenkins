@@ -1,0 +1,28 @@
+name: "Test docker images"
+
+on:
+  push:
+    branches:
+      - "feature/**"
+      - "fix/**"
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: jayamorin
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+      - name: Pull latest jenkins-master image and build
+        run: |
+          docker pull jayamorin/jenkins-master:latest
+          docker build -t jayamorin/jenkins-master:latest -f master/Dockerfile .
