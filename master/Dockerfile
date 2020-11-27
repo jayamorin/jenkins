@@ -1,11 +1,17 @@
 FROM jenkins/jenkins:2.235.3 AS default
 
+ARG BUILD_DATE
+ARG BUILD_VERSION
+
 LABEL maintaner="Jay Amorin <jay.amorin@gmail.com>"
+LABEL org.label-schema.build-date=${BUILD_DATE}
 LABEL org.label-schema.name="jenkins-master"
 LABEL org.label-schema.description="Jenkins master running on docker"
 LABEL org.label-schema.usage="/usr/share/doc/jenkins-master/app-usage.txt"
 LABEL org.label-schema.url="https://jenkins.jayamorin.com"
 LABEL org.label-schema.vcs-url="https://github.com/jayamorin/jenkins-docker"
+LABEL org.label-schema.vcs-ref=$BUILD_VERSION
+LABEL org.label-schema.version="1.0"
 LABEL org.label-schema.vendor="jayamorin.com"
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.docker.cmd="docker run -d -p 8080:8080 -p 50000:50000 \
