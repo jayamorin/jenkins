@@ -1,7 +1,24 @@
-FROM jenkins/jenkins:2.235.3
+FROM jenkins/jenkins:2.235.3 AS default
+
+LABEL maintaner="Jay Amorin <jay.amorin@gmail.com>"
+LABEL org.label-schema.name="jenkins-master"
+LABEL org.label-schema.description="Jenkins master running on docker"
+LABEL org.label-schema.usage="/usr/share/doc/jenkins-master/app-usage.txt"
+LABEL org.label-schema.url="https://jenkins.jayamorin.com"
+LABEL org.label-schema.vcs-url="https://github.com/jayamorin/jenkins-docker"
+LABEL org.label-schema.vendor="jayamorin.com"
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.docker.cmd="docker run -d -p 8080:8080 -p 50000:50000 \
+    -v jenkins_data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /home/user/.ssh:/var/jenkins_home/.ssh -e JAVA_OPTS=-Xmx4096m -Djava.awt.headless=true \
+    -Djenkins.install.runSetupWizard=false -Dhudson.footerURL=http://jenkins.jayamorin.com \
+    -Djava.util.logging.config.file=/var/jenkins_home/log.properties \
+    -e TRY_UPGRADE_IF_NO_MARKER:=true jenkins-master:latest"
+
 COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/
 COPY log.properties /var/jenkins_home/log.properties
 COPY plugins.txt /usr/share/jenkins/plugins.txt
+COPY app-usage.txt /usr/share/doc/jenkins-master/app-usage.txt
 RUN /usr/local/bin/install-plugins.sh $(cat /usr/share/jenkins/plugins.txt | tr '\n' ' ')
 USER root
 RUN apt-get update && \
