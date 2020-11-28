@@ -1,4 +1,4 @@
-FROM jenkins/ssh-slave:latest AS default
+FROM ubuntu:20.04 AS default
 ARG BUILD_DATE
 ARG BUILD_VERSION
 LABEL maintaner="Jay Amorin <jay.amorin@gmail.com>"
@@ -20,9 +20,13 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install python3.9 \
     python3.9-dev \
     python3.9-venv \
-    python3-pip && \
+    python3-pip \
+    openssh-client \
+    openssh-server \
+    openssh-sftp-server && \
     rm -rf /var/lib/apt/lists/*
 COPY usage.txt /usr/share/doc/jenkins-slave-python/usage.txt
-RUN groupadd -g 999 docker
+
+RUN groupadd -g 998 docker
 RUN usermod -aG docker jenkins
 USER jenkins

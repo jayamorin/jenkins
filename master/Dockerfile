@@ -38,6 +38,6 @@ RUN apt-get update && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce && \
     rm -rf /var/lib/apt/lists/*
-RUN groupmod -g 999 docker
+RUN groupmod -g 998 docker
 RUN usermod -a -G docker jenkins
 USER jenkins
