@@ -1,4 +1,4 @@
-name: "Test docker images"
+name: "Push jenkins-slave-python image"
 
 on:
   workflow_dispatch:
