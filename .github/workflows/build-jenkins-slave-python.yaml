@@ -26,6 +26,7 @@ jobs:
           GITHUB_SHA_TAG: ${{ github.sha }}
         run: |
           cd slaves/python
+          docker pull jayamorin/jenkins-slave-python:latest
           docker build -t jayamorin/jenkins-slave-python:latest \
             --target python3.9 \
             --build-arg BUILD_DATE=${NOW} \
