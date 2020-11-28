@@ -29,13 +29,11 @@ jobs:
 
       - name: Pull latest jenkins-master image and build
         env:
-          JENKINS_VERSION: 2.249.3
           NOW: ${{ steps.date.outputs.date }}
         run: |
           cd master
           docker pull jayamorin/jenkins-master:latest
           docker build -t jayamorin/jenkins-master:latest \
-            --build-arg APP_VERSION=${JENKINS_VERSION} \
             --build-arg BUILD_DATE=${NOW} \
             --build-arg BUILD_VERSION=${{ github.sha }} .
           docker inspect jayamorin/jenkins-master:latest
