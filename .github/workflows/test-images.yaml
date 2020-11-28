@@ -43,7 +43,7 @@ jobs:
         run: |
           cd slaves/python
           docker build -t jayamorin/jenkins-slave-python:latest \
-            --target python3.9
+            --target python3.9 \
             --build-arg BUILD_DATE=${NOW} \
             --build-arg BUILD_VERSION=${{ github.sha }} .
           docker tag jayamorin/jenkins-slave-python:latest jayamorin/jenkins-slave-python:3.9
