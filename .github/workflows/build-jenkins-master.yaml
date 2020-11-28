@@ -1,14 +1,7 @@
 name: "Test docker images"
 
 on:
-  push:
-    branches:
-      - "feature/**"
-      - "fix/**"
-      - "master"
-  pull_request:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   build:
