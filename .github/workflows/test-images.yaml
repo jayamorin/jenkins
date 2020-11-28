@@ -30,12 +30,13 @@ jobs:
       - name: Pull latest jenkins-master image and build
         env:
           NOW: ${{ steps.date.outputs.date }}
+          GH_SHA_TAG: ${{ github.sha }}
         run: |
           cd master
           docker pull jayamorin/jenkins-master:latest
           docker build -t jayamorin/jenkins-master:latest \
             --build-arg BUILD_DATE=${NOW} \
-            --build-arg BUILD_VERSION=${{ github.sha }} .
+            --build-arg BUILD_VERSION=$GH_SHA_TAG .
           docker inspect jayamorin/jenkins-master:latest
 
       - name: Pull latest jenkins-slave-python image and build
