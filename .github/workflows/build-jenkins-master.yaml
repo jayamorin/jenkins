@@ -24,7 +24,6 @@ jobs:
         env:
           NOW: ${{ steps.date.outputs.date }}
           GITHUB_SHA_TAG: ${{ github.sha }}
-          JENKINS_VERSION: 2.249.3
         run: |
           cd master
           docker pull jayamorin/jenkins-master:latest
@@ -35,11 +34,11 @@ jobs:
       - name: Push to hub.docker.com
         env:
           GITHUB_SHA_TAG: ${{ github.sha }}
-          JENKINS_VERSION: 2.249.3
+          VERSION: 2.249.3
         run: |
-          docker tag jayamorin/jenkins-master:latest jayamorin/jenkins-master:$JENKINS_VERSION
+          docker tag jayamorin/jenkins-master:latest jayamorin/jenkins-master:$VERSION
           docker tag jayamorin/jenkins-master:latest jayamorin/jenkins-master:$GITHUB_SHA_TAG
           docker push jayamorin/jenkins-master:latest
-          docker push jayamorin/jenkins-master:$JENKINS_VERSION
+          docker push jayamorin/jenkins-master:$VERSION
           docker push jayamorin/jenkins-master:$GITHUB_SHA_TAG
           docker inspect jayamorin/jenkins-master:latest

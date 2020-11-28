@@ -1,14 +1,7 @@
 name: "Test docker images"
 
 on:
-  push:
-    branches:
-      - "feature/**"
-      - "fix/**"
-      - "master"
-  pull_request:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   build:
@@ -27,18 +20,6 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 
-      - name: Pull latest jenkins-master image and build
-        env:
-          NOW: ${{ steps.date.outputs.date }}
-          GITHUB_SHA_TAG: ${{ github.sha }}
-        run: |
-          cd master
-          docker pull jayamorin/jenkins-master:latest
-          docker build -t jayamorin/jenkins-master:latest \
-            --build-arg BUILD_DATE=${NOW} \
-            --build-arg BUILD_VERSION=$GITHUB_SHA_TAG .
-          docker inspect jayamorin/jenkins-master:latest
-
       - name: Pull latest jenkins-slave-python image and build
         env:
           NOW: ${{ steps.date.outputs.date }}
@@ -49,4 +30,15 @@ jobs:
             --target python3.9 \
             --build-arg BUILD_DATE=${NOW} \
             --build-arg BUILD_VERSION=$GITHUB_SHA_TAG .
+
+      - name: Push to hub.docker.com
+        env:
+          GITHUB_SHA_TAG: ${{ github.sha }}
+          VERSION: 2.249.3
+        run: |
+          docker tag jayamorin/jenkins-slave-python:latest jayamorin/jenkins-slave-python:$VERSION
+          docker tag jayamorin/jenkins-slave-python:latest jayamorin/jenkins-slave-python:$GITHUB_SHA_TAG
+          docker push jayamorin/jenkins-slave-python:latest
+          docker push jayamorin/jenkins-slave-python:$VERSION
+          docker push jayamorin/jenkins-slave-python:$GITHUB_SHA_TAG
           docker inspect jayamorin/jenkins-slave-python:latest
