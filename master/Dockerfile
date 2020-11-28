@@ -1,6 +1,7 @@
-FROM jenkins/jenkins:2.235.3 AS default
 ARG BUILD_DATE
 ARG BUILD_VERSION
+ARG APP_VERSION
+FROM jenkins/jenkins:${APP_VERSION} AS default
 LABEL maintaner="Jay Amorin <jay.amorin@gmail.com>"
 LABEL org.label-schema.build-date=${BUILD_DATE}
 LABEL org.label-schema.name="jenkins-master"
