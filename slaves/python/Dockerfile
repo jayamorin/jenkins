@@ -26,7 +26,7 @@ RUN apt-get update && \
     openssh-sftp-server && \
     rm -rf /var/lib/apt/lists/*
 COPY usage.txt /usr/share/doc/jenkins-slave-python/usage.txt
-
+RUN useradd -m -s /bin/bash jenkins
 RUN groupadd -g 998 docker
 RUN usermod -aG docker jenkins
 USER jenkins
