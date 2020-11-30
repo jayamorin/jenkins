@@ -7,7 +7,7 @@ import jenkins.model.Jenkins
 def jenkinsKeyUsernameWithPasswordParameters = [
   description:  'Github login credentials',
   id:           'github',
-  secret:       'c7617ea71e62e0eabbb0023126b1018c543e8db8',
+  secret:       'zzdxNuHh-]Gh7x#R4!#?',
   userName:     'vcs-cloudstart-io'
 ]
 
