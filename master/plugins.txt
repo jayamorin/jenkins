@@ -1,7 +1,0 @@
-greenballs
-docker-plugin
-docker-slaves
-blueocean-dashboard
-github-branch-source
-workflow-multibranch
-authorize-project
