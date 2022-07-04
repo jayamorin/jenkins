@@ -1,60 +1,49 @@
-# Dockerize Jenkins
+# Jenkins Master
 
-## Setup and Configuration
+<a href="https://jenkins.io">
+  <picture>
+    <source width="400" media="(prefers-color-scheme: dark)" srcset="https://www.jenkins.io/images/jenkins-logo-title-dark.svg">
+    <img width="400" src="https://www.jenkins.io/images/jenkins-logo-title.svg">
+  </picture>
+</a>
 
-1. Install nginx
+## About
 
-> ```bash
-> apt install nginx
-> cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.`date +%s`
->
-> cat > /etc/nginx/sites-available/default <<EOF
-> server {
->    listen 80 default_server;
->    listen [::]:80 default_server;
->    server_name jenkins.cloudstart.io;
->
->    location / {
->        proxy_set_header        Host $host:$server_port;
->        proxy_set_header        X-Real-IP $remote_addr;
->        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
->        proxy_set_header        X-Forwarded-Proto $scheme;
->
->        # Fix the "It appears that your reverse proxy set up is broken" error.
->        proxy_pass          http://127.0.0.1:8080;
->        proxy_read_timeout  90;
->
->        proxy_redirect      http://127.0.0.1:8080 http://jenkins.cloudstart.io;
->
->        # Required for new HTTP-based CLI
->        proxy_http_version 1.1;
->        proxy_request_buffering off;
->        # workaround for https://issues.jenkins-ci.org/browse/JENKINS-45651
->        add_header 'X-SSH-Endpoint' 'jenkins.cloudstart.io:50022' always;
->    }
-> }
-> EOF
-> systemctl enable nginx && systemctl restart nginx
-> ```
+[![Jenkins Regular Release](https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.jenkins.io%2Fchangelog%2Fbadge.json)](https://www.jenkins.io/changelog)
+[![Jenkins LTS Release](https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.jenkins.io%2Fchangelog-stable%2Fbadge.json)](https://www.jenkins.io/changelog-stable)
+[![Docker Pulls](https://img.shields.io/docker/pulls/jenkins/jenkins.svg)](https://hub.docker.com/r/jenkins/jenkins/)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3538/badge)](https://bestpractices.coreinfrastructure.org/projects/3538)
 
-2. Install docker and make sure to uninstall previous version of docker, containerd and runc.
+In a nutshell, Jenkins is the leading open-source automation server. 
+Built with Java, it provides over 1,700 [plugins](https://plugins.jenkins.io/) to support automating virtually anything, 
+so that humans can spend their time doing things machines cannot.
 
-> ```bash
-> sudo apt-get update
-> sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-> curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-> sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs) stable"
-> sudo apt-get update
-> sudo apt-get install docker-ce docker-ce-cli containerd.io
-> sudo docker run hello-world
-> sudo usermod -aG docker user
-> ```
+## What to Use Jenkins for and When to Use It
 
-3. Install docker-compose
+Use Jenkins to automate your development workflow, so you can focus on work that matters most. Jenkins is commonly used for:
 
-> ```bash
-> sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-> sudo chmod +x /usr/local/bin/docker-compose
-> ```
+- Building projects
+- Running tests to detect bugs and other issues as soon as they are introduced
+- Static code analysis
+- Deployment
 
-4. Reboot the server
+Execute repetitive tasks, save time, and optimize your development process with Jenkins.
+
+
+## Installation
+
+```bash
+kubectl apply -k overlays/rancher-desktop
+```
+
+## Credentials
+
+```bash
+kubectl get secret jenkins-operator-credentials-jenkins-master -o 'jsonpath={.data.user}' -n jenkins | base64 -d
+kubectl get secret jenkins-operator-credentials-jenkins-master -o 'jsonpath={.data.password}' -n jenkins | base64 -d
+```
+
+## Reference
+
+* [Jenkins](https://www.jenkins.io/doc/book/)
+* [Jenkins Operator](https://jenkinsci.github.io/kubernetes-operator/docs/getting-started/latest/)

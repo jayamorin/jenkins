@@ -1,0 +1,13 @@
+{
+  "project_code": "jenkins",
+  "services": [
+  	{
+      "folder": "services/nodejs-worker",
+      "build_type": "docker"
+    },
+	  {
+      "folder": "services/python3-worker",
+      "build_type": "docker"
+    }
+  ]
+}
