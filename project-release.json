@@ -13,5 +13,19 @@
       "image_version": "2.319.1-lts-alpine",
       "deployment_type": "kubernetes"
     }
+  ],
+  "docker-desktop": [
+    {
+      "service": "jenkins-operator",
+      "image_name": "virtuslab/jenkins-operator",
+      "image_version": "v0.7.1",
+      "deployment_type": "kubernetes"
+    },
+    {
+      "service": "jenkins-master",
+      "image_name": "jenkins/jenkins",
+      "image_version": "2.319.1-lts-alpine",
+      "deployment_type": "kubernetes"
+    }
   ]
 }
