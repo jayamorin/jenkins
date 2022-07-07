@@ -1,4 +1,4 @@
-# Jenkins Master
+# Jenkins
 
 <a href="https://jenkins.io">
   <picture>

@@ -7,3 +7,12 @@ patchesStrategicMerge:
   - jenkins-master-jenkins.yaml
 resources:
   - ingress-route.yaml
+  - middleware.yaml
+secretGenerator:
+  - name: traefik.me-ssl-certs
+    namespace: jenkins
+    files:
+      - tls.crt
+      - tls.key
+    options:
+      disableNameSuffixHash: true
