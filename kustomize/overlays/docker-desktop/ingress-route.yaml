@@ -2,6 +2,23 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  name: jenkins-operator-https-jenkins-master
+  namespace: jenkins
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jenkins-192-168-254-252.traefik.me`)
+      kind: Rule
+      services:
+        - name: jenkins-operator-http-jenkins-master
+          port: 8080
+  tls:
+    secretName: traefik.me-ssl-certs
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
   name: jenkins-operator-http-jenkins-master
   namespace: jenkins
 spec:
@@ -13,3 +30,6 @@ spec:
       services:
         - name: jenkins-operator-http-jenkins-master
           port: 8080
+      middlewares:
+        - name: jenkins-operator-redirect-jenkins-master
+          namespace: jenkins
