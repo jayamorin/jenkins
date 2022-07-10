@@ -16,3 +16,8 @@ secretGenerator:
       - tls.key
     options:
       disableNameSuffixHash: true
+  - name: jenkins-operator-api-github
+    namespace: jenkins
+    env: jenkins-operator-api-github.credentials
+    options:
+      disableNameSuffixHash: true

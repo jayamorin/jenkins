@@ -39,8 +39,10 @@ spec:
             cpu: "1"
             memory: 4Gi
   seedJobs:
-    - id: jenkins-operator
+    - id: jayamorin
       targets: "jobs/*.jenkins"
       description: "Jenkins seed jobs repository"
-      repositoryBranch: main
+      repositoryBranch: 3-setup-cicd
       repositoryUrl: https://github.com/jayamorin/jenkins-seed-jobs.git
+      credentialType: usernamePassword
+      credentialID: jenkins-operator-api-github
